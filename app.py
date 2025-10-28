@@ -2,39 +2,28 @@ import os
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import atexit
 
-# --- CONFIGURACIÓN DE LA BASE DE DATOS ---
-# ¡REEMPLAZA ESTO CON TUS CREDENCIALES DE PYTHONANYWHERE MYSQL!
-DB_USERNAME = 'TU_USUARIO_AQUI'
-DB_PASSWORD = 'TU_PASSWORD_MYSQL_AQUI'
-DB_HOSTNAME = 'TU_HOSTNAME_MYSQL_AQUI.mysql.pythonanywhere-services.com'
-DB_NAME = 'TU_USUARIO_AQUI$default'
-# ----------------------------------------
-
-# Inicialización de la App Flask
+# --- CONFIGURACIÓN DE LA BASE DE DATOS (SQLite) ---
+# Esto es mucho más simple. Usará un archivo llamado 'project.db'
+# que se creará en tu directorio de PythonAnywhere.
 app = Flask(__name__)
+db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'project.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+# -------------------------------------------------
 
-# Configuración de la Conexión a la Base de Datos
-try:
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOSTNAME}/{DB_NAME}'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db = SQLAlchemy(app)
+# Definición del Modelo de la Base de Datos (la tabla)
+class Response(db.Model):
+    __tablename__ = 'responses'
+    id = db.Column(db.Integer, primary_key=True)
+    mos_score = db.Column(db.Integer, nullable=False)
+    # Cambiado a datetime.now para compatibilidad con SQLite
+    submitted_at = db.Column(db.DateTime, default=datetime.now)
 
-    # Definición del Modelo de la Base de Datos (la tabla)
-    class Response(db.Model):
-        __tablename__ = 'responses'
-        id = db.Column(db.Integer, primary_key=True)
-        mos_score = db.Column(db.Integer, nullable=False)
-        submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-        def __repr__(self):
-            return f'<Response {self.id}: MOS={self.mos_score}>'
-
-except Exception as e:
-    print(f"Error al configurar la base de datos: {e}")
-    # Si hay un error de config, la app seguirá funcionando para mostrar la página,
-    # pero el envío de datos fallará.
-    db = None
+    def __repr__(self):
+        return f'<Response {self.id}: MOS={self.mos_score}>'
 
 @app.route('/')
 def index():
@@ -47,9 +36,6 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit_response():
     """Recibe los datos del formulario (vía JSON) y los guarda en la DB."""
-    if not db:
-        return jsonify({"success": False, "error": "Database not configured"}), 500
-
     try:
         # Recibimos datos JSON del fetch() de JavaScript
         data = request.json
@@ -75,16 +61,19 @@ def submit_response():
         print(f"Error en /submit: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
 
-# --- Sección para crear la tabla si no existe (opcional, mejor hacerlo manual) ---
-# Con el contexto de la aplicación, crea las tablas si no existen.
-# Es mejor correr esto una vez localmente o correr el SQL manual en PythonAnywhere.
-# @app.before_first_request
-# def create_tables():
-#     try:
-#         db.create_all()
-#     except Exception as e:
-#         print(f"Error creating tables: {e}")
+# Función para crear la base de datos y la tabla si no existen
+def create_db_tables():
+    with app.app_context():
+        print("Creando tablas de la base de datos si no existen...")
+        db.create_all()
+        print("Tablas listas.")
+
+# --- Creación de la DB ---
+# Llama a la función para crear las tablas al iniciar la app.
+# El archivo WSGI también llamará a esto para asegurarse.
+create_db_tables()
 
 if __name__ == '__main__':
     # Esto es solo para pruebas locales, PythonAnywhere usa un servidor WSGI
     app.run(debug=True)
+
