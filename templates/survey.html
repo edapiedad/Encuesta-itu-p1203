@@ -4,41 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuesta de Calidad de Experiencia (QoE)</title>
-    <!-- Carga de Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Carga de la fuente "Merriweather" para un look más elegante/temático --><link rel="preconnect" href="https://fonts.googleapis.com">
+
+<script src="https://cdn.tailwindcss.com"></script>
+    
+    
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* Todos los estilos de la "v2" siguen aquí... */
         body {
             font-family: 'Merriweather', serif;
-            color: #e2e8f0; /* Color de texto base más claro */
-            background: linear-gradient(135deg, #1a202c 0%, #0f172a 100%); /* Fondo degradado sutil */
+            color: #e2e8f0; 
+            background: linear-gradient(135deg, #1a202c 0%, #0f172a 100%);
         }
         .animated-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1; overflow: hidden;
         }
         .particle {
-            position: absolute;
-            background-color: rgba(96, 165, 250, 0.3);
-            border-radius: 50%;
-            opacity: 0;
+            position: absolute; background-color: rgba(96, 165, 250, 0.3);
+            border-radius: 50%; opacity: 0;
             animation: floatAndFade 15s infinite ease-in-out;
             box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
         }
         @keyframes floatAndFade {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            25% { opacity: 0.5; }
-            50% { transform: translateY(-50vh) scale(1); opacity: 0.8; }
-            75% { opacity: 0.5; }
+            50% { opacity: 0.8; transform: translateY(-50vh) scale(1); }
             100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
         }
         @keyframes fadeInScale {
@@ -48,21 +43,21 @@
         .animate-fade-in-scale { animation: fadeInScale 0.8s ease-out forwards; }
         .peer { display: none; }
         .radio-label {
-            border: 1px solid rgba(75, 85, 99, 0.5);
-            background-color: rgba(31, 41, 55, 0.7);
-            backdrop-filter: blur(8px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(75, 85, 99, 0.5); 
+            background-color: rgba(31, 41, 55, 0.7); 
+            backdrop-filter: blur(8px); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         .peer:checked + .radio-label {
-            border-color: #60a5fa;
-            background-color: rgba(45, 55, 72, 0.8);
-            box-shadow: 0 0 25px rgba(96, 165, 250, 0.7);
+            border-color: #60a5fa; 
+            background-color: rgba(45, 55, 72, 0.8); 
+            box-shadow: 0 0 25px rgba(96, 165, 250, 0.7); 
             transform: translateY(-5px) scale(1.02);
         }
         .radio-label:hover:not(.peer:checked + .radio-label) {
-            background-color: rgba(55, 65, 81, 0.75);
+            background-color: rgba(55, 65, 81, 0.75); 
             transform: translateY(-2px) scale(1.01);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
@@ -72,38 +67,23 @@
         }
         .btn-submit-glow {
             animation: pulse-glow 2.5s infinite ease-in-out;
-            background-color: #3b82f6;
-            border: none;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            background-color: #3b82f6; 
+            border: none; position: relative; overflow: hidden; z-index: 1;
         }
         .btn-submit-glow::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300%;
-            height: 300%;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            transition: all 0.5s ease-out;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            z-index: -1;
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 300%; height: 300%; background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%; transition: all 0.5s ease-out;
+            transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: -1;
         }
         .btn-submit-glow:hover::before { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         .thank-you-icon {
-            opacity: 0;
-            transform: scale(0.7);
-            animation: iconPopIn 0.6s ease-out forwards;
-            animation-delay: 0.3s;
+            opacity: 0; transform: scale(0.7);
+            animation: iconPopIn 0.6s ease-out forwards; animation-delay: 0.3s;
         }
         .hornet-thank-you-img {
-            opacity: 0;
-            transform: translateY(10px);
-            animation: imgFadeInUp 0.7s ease-out forwards;
-            animation-delay: 0.5s;
+            opacity: 0; transform: translateY(10px);
+            animation: imgFadeInUp 0.7s ease-out forwards; animation-delay: 0.5s;
         }
         @keyframes imgFadeInUp {
             from { opacity: 0; transform: translateY(10px) scale(0.9); }
@@ -118,19 +98,26 @@
 </head>
 <body class="text-gray-200 min-h-screen flex items-center justify-center p-4">
 
-    <div class="animated-background" id="animated-particles-container"></div>
+    
 
-    <div id="survey-container" class="w-full max-w-lg bg-gray-800 bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-2xl p-8 md:p-10 opacity-0 animate-fade-in-scale border border-gray-700">
+<div class="animated-background" id="animated-particles-container"></div>
 
-        <div id="survey-content">
+    
+
+<div id="survey-container" class="w-full max-w-lg bg-gray-800 bg-opacity-70 backdrop-blur-lg rounded-2xl shadow-2xl p-8 md:p-10 opacity-0 animate-fade-in-scale border border-gray-700">
+
+        
+
+<div id="survey-content">
             <h1 class="text-4xl font-black text-center mb-4 text-blue-400 leading-tight">Evaluación de<br>Calidad de Experiencia</h1>
-            <p class="text-center text-gray-300 text-lg mb-8">Califica tu percepción del video que acabas de ver.</p>
-            
-            <!-- CAMBIO: Se elimina 'action' y 'method' del form, se manejará 100% con JS -->
+            <p class="text-center text-gray-300 text-lg mb-8">¡Ayúdanos a mejorar! Califica tu percepción del video de "Silksong" que acabas de ver.</p>
+
             <form id="qoe-form">
                 <div class="space-y-5 mb-10">
                     
-                    <div>
+                    
+
+<div>
                         <input type="radio" id="mos-5" name="mos" value="5" class="peer" required>
                         <label for="mos-5" class="radio-label block p-6 rounded-xl">
                             <span class="font-bold text-xl text-white">5 - Excelente</span>
@@ -138,7 +125,9 @@
                         </label>
                     </div>
 
-                    <div>
+                    
+
+<div>
                         <input type="radio" id="mos-4" name="mos" value="4" class="peer">
                         <label for="mos-4" class="radio-label block p-6 rounded-xl">
                             <span class="font-bold text-xl text-white">4 - Buena</span>
@@ -146,7 +135,9 @@
                         </label>
                     </div>
 
-                    <div>
+                    
+
+<div>
                         <input type="radio" id="mos-3" name="mos" value="3" class="peer">
                         <label for="mos-3" class="radio-label block p-6 rounded-xl">
                             <span class="font-bold text-xl text-white">3 - Aceptable</span>
@@ -154,7 +145,9 @@
                         </label>
                     </div>
 
-                    <div>
+                    
+
+<div>
                         <input type="radio" id="mos-2" name="mos" value="2" class="peer">
                         <label for="mos-2" class="radio-label block p-6 rounded-xl">
                             <span class="font-bold text-xl text-white">2 - Mediocre</span>
@@ -162,7 +155,9 @@
                         </label>
                     </div>
 
-                    <div>
+                    
+
+<div>
                         <input type="radio" id="mos-1" name="mos" value="1" class="peer">
                         <label for="mos-1" class="radio-label block p-6 rounded-xl">
                             <span class="font-bold text-xl text-white">1 - Mala</span>
@@ -171,114 +166,126 @@
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-4 px-8 rounded-xl transition duration-300 transform shadow-lg btn-submit-glow text-lg">
+                
+
+<button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-4 px-8 rounded-xl transition duration-300 transform shadow-lg btn-submit-glow text-lg">
                     Enviar Evaluación
                 </button>
             </form>
         </div>
 
-        <div id="thank-you-message" class="hidden text-center opacity-0 transition-opacity duration-1000">
-            <svg class="w-20 h-20 mx-auto mb-6 text-green-400 thank-you-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        
+
+<div id="thank-you-message" class="hidden text-center opacity-0 transition-opacity duration-1000">
+            
+
+<svg class="w-20 h-20 mx-auto mb-6 text-green-400 thank-you-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <img src="https://preview.redd.it/hornet-from-hollow-knight-silksong-v0-qqhtk1fdzo1e1.png?width=1080&crop=smart&auto=webp&s=d082ab018c3bcbde3520dbf6ed687363e1bbc412" alt="Hornet de Silksong" class="hornet-thank-you-img mx-auto w-24 h-auto mb-4" />
+            
+
+<img src="https://preview.redd.it/hornet-from-hollow-knight-silksong-v0-qqhtk1fdzo1e1.png?width=1080&crop=smart&auto=webp&s=d082ab018c3bcbde3520dbf6ed687363e1bbc412" alt="Hornet de Silksong" class="hornet-thank-you-img mx-auto w-24 h-auto mb-4" />
+            
             <h2 class="text-4xl font-bold text-green-300 mb-5">¡Evaluación Registrada!</h2>
             <p class="text-xl text-gray-300">Gracias por tu valiosa contribución a nuestra investigación.</p>
+        </div>
+
+        
+
+<div id="error-message" class="hidden text-center opacity-0 transition-opacity duration-1000 mt-4">
+            <p class="text-lg text-red-400">Hubo un error al enviar tu respuesta. Por favor, inténtalo de nuevo.</p>
         </div>
     </div>
 
     <script>
-        // Lógica para manejar el envío del formulario
-        const form = document.getElementById('qoe-form');
-        const surveyContainer = document.getElementById('survey-container');
-        const surveyContent = document.getElementById('survey-content');
-        const thankYouMessage = document.getElementById('thank-you-message');
+        // Generador de partículas (igual que antes)
         const animatedParticlesContainer = document.getElementById('animated-particles-container');
-
-        // ... (el código de createParticle no cambia) ...
         function createParticle() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             animatedParticlesContainer.appendChild(particle);
-            const size = Math.random() * 10 + 5;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            const startX = Math.random() * window.innerWidth;
-            particle.style.left = `${startX}px`;
+            const size = Math.random() * 10 + 5; 
+            particle.style.width = `${size}px`; particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * window.innerWidth}px`;
             particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
             particle.style.animationDelay = `-${Math.random() * 15}s`;
             particle.style.top = `${window.innerHeight}px`;
-            particle.addEventListener('animationend', () => {
-                particle.remove();
-            });
+            particle.addEventListener('animationend', () => { particle.remove(); });
         }
         for (let i = 0; i < 30; i++) { createParticle(); }
         setInterval(createParticle, 1000);
 
+        // --- INICIO DE LA LÓGICA DE ENVÍO (MODIFICADA) ---
+        const form = document.getElementById('qoe-form');
+        const surveyContainer = document.getElementById('survey-container');
+        const surveyContent = document.getElementById('survey-content');
+        const thankYouMessage = document.getElementById('thank-you-message');
+        const errorMessage = document.getElementById('error-message'); // Mensaje de error
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevenir el envío tradicional del formulario
+        // URL de tu API en PythonAnywhere
+        const API_URL = 'https://edapiedad.pythonanywhere.com/submit';
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevenir el envío normal del formulario
 
             const selectedMOS = new FormData(form).get('mos');
-            if (!selectedMOS) {
-                // No se seleccionó nada (aunque 'required' debería prevenir esto)
-                return;
-            }
-            
-            // --- INICIO DE LA MODIFICACIÓN ---
-            // Enviar los datos al backend de Flask usando fetch()
-            
-            // Deshabilitar el botón para evitar envíos múltiples
-            const submitButton = form.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Enviando...';
-            submitButton.classList.remove('btn-submit-glow');
+            if (!selectedMOS) { return; } // No hacer nada si no hay selección
 
-            fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ mos: selectedMOS }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Si el backend guardó los datos, mostrar el mensaje de agradecimiento
-                    console.log('Respuesta guardada:', data.message);
-                    
-                    // Ocultar el formulario con una animación de fade-out
-                    surveyContent.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-                    
-                    setTimeout(() => {
-                        surveyContent.classList.add('hidden');
-                        thankYouMessage.classList.remove('hidden');
-                        void thankYouMessage.offsetWidth; 
-                        thankYouMessage.classList.remove('opacity-0');
-                        thankYouMessage.classList.add('opacity-100');
-                        surveyContainer.style.borderColor = '#34d399';
-                        surveyContainer.style.boxShadow = '0 0 25px rgba(52, 211, 153, 0.7)';
-                    }, 500);
+            const dataToSend = {
+                mos: parseInt(selectedMOS) // Solo enviamos la puntuación MOS
+            };
+            
+            // Ocultar mensaje de error si estaba visible
+            errorMessage.classList.add('hidden');
+            errorMessage.classList.add('opacity-0');
 
-                } else {
-                    // Si hubo un error en el backend
-                    console.error('Error al guardar:', data.error);
-                    // (Opcional) Mostrar un mensaje de error al usuario
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Reintentar Envío';
-                    submitButton.classList.add('bg-red-600', 'hover:bg-red-500'); // Indicar error
+            try {
+                // Enviar los datos a la API de PythonAnywhere
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+
+                if (!response.ok) {
+                    // Si el servidor responde con un error (ej. 500, 404)
+                    throw new Error(`Error del servidor: ${response.status}`);
                 }
-            })
-            .catch(error => {
-                // Si hubo un error de red (ej: el servidor está caído)
-                console.error('Error de red:', error);
-                submitButton.disabled = false;
-                submitButton.textContent = 'Error de Conexión';
-                submitButton.classList.add('bg-red-600', 'hover:bg-red-500');
-            });
-            
-            // --- FIN DE LA MODIFICACIÓN ---
+
+                // ÉXITO: El servidor guardó los datos
+                console.log('Respuesta guardada con éxito');
+
+                // Ocultar el formulario
+                surveyContent.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+                
+                setTimeout(() => {
+                    surveyContent.classList.add('hidden');
+                    
+                    // Mostrar el mensaje de agradecimiento
+                    thankYouMessage.classList.remove('hidden');
+                    void thankYouMessage.offsetWidth; 
+                    thankYouMessage.classList.remove('opacity-0');
+                    thankYouMessage.classList.add('opacity-100');
+
+                    // Cambiar el borde del contenedor a verde
+                    surveyContainer.style.borderColor = '#34d399';
+                    surveyContainer.style.boxShadow = '0 0 25px rgba(52, 211, 153, 0.7)';
+                }, 500);
+
+            } catch (error) {
+                // ERROR: No se pudo conectar con el servidor
+                console.error('Error al enviar la encuesta:', error);
+                
+                // Mostrar mensaje de error
+                errorMessage.classList.remove('hidden');
+                void errorMessage.offsetWidth;
+                errorMessage.classList.remove('opacity-0');
+                errorMessage.classList.add('opacity-100');
+            }
         });
+        // --- FIN DE LA LÓGICA DE ENVÍO ---
     </script>
 
 </body>
